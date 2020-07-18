@@ -3,17 +3,27 @@ import os
 from typing import Type, List, Union
 
 from jivago.config.production_jivago_context import ProductionJivagoContext
+from jivago.config.router.router_builder import RouterBuilder
 from jivago.jivago_application import JivagoApplication
 from jivago.lang.annotations import Override
 from jivago.wsgi.filter.filter import Filter
+from jivago.wsgi.routing.routing_rule import RoutingRule
+from jivago.wsgi.routing.serving.static_file_routing_table import StaticFileRoutingTable
 
 import pdfinvert.wsgi
+import pdfinvert.static
 from pdfinvert.wsgi.filter.request_metrics_filter import RequestMetricsFilter
 from pdfinvert.wsgi.filter.temporary_file_cleanup_filter import TemporaryFileCleanupFilter
 
 
 class InvertPdfContext(ProductionJivagoContext):
     LOGGER = logging.getLogger("InvertPdfContext")
+
+    def create_router_config(self) -> RouterBuilder:
+        return super().create_router_config().add_rule(
+            RoutingRule("", StaticFileRoutingTable(
+                os.path.dirname(pdfinvert.static.__file__),
+                [".js", ".html", ".css"])))
 
     @Override
     def get_default_filters(self) -> List[Union[Filter, Type[Filter]]]:
