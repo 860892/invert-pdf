@@ -69,4 +69,4 @@ class TelemetryUploadWorker(Runnable):
         try:
             self.telemetry_client.submit()
         except Exception as e:
-            self.logger.warning(f"Could not push telemetry data. {e}")
+            self.logger.debug(f"Could not push telemetry data. {e}")

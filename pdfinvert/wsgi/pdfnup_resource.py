@@ -19,10 +19,6 @@ class PdfnupResource(object):
     def __init__(self, properties: ApplicationProperties):
         self.temp_dir = properties.get("temp_directory")
 
-    @GET
-    def get(self) -> RenderedView:
-        return RenderedView("2x2.html", {})
-
     @POST
     def post(self, request: Request) -> Response:
         filename = os.path.join(self.temp_dir, str(uuid.uuid4())) + ".pdf"

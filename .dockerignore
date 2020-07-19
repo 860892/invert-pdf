@@ -1,0 +1,4 @@
+**/node_modules
+webapp/public
+pdfinvert/static/*
+!pdfinvert/static/__init__.py

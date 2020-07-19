@@ -23,7 +23,7 @@ class InvertPdfContext(ProductionJivagoContext):
         return super().create_router_config().add_rule(
             RoutingRule("", StaticFileRoutingTable(
                 os.path.dirname(pdfinvert.static.__file__),
-                [".js", ".html", ".css"])))
+                [".js", ".html", ".css", ".json", ".webmanifest"])))
 
     @Override
     def get_default_filters(self) -> List[Union[Filter, Type[Filter]]]:
