@@ -22,6 +22,9 @@ RUN pip3 install --trusted-host pypi.python.org -r requirements.txt
 
 COPY --from=webapp-builder /app/public/ /app/pdfinvert/static/
 
+RUN groupadd -r app && useradd --no-log-init -r -g app app
+USER app
+
 ENV PYTHONPATH /app
 
 CMD ["/bin/bash", "-c", "gunicorn --bind=0.0.0.0:$PORT --workers=1 --threads=16 --timeout 1800 --graceful-timeout 400 pdfinvert.main"]

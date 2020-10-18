@@ -1,8 +1,10 @@
-import React from "react"
-import { Link } from "gatsby"
-import { Layout } from "../components/Layout"
+import React, { useState, FormEvent } from "react";
+import { Link } from "gatsby";
+import { Layout } from "../components/Layout";
+import { Slider } from "components/Slider";
 
 function IndexPage() {
+  const [dpi, setDpi] = useState(100);
   return (
     <Layout>
       <a href="https://github.com/keotl/pdf-colour-invert">
@@ -23,7 +25,7 @@ function IndexPage() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "center",
-          marginTop: "20vh"
+          marginTop: "20vh",
         }}
       >
         <div>
@@ -34,6 +36,16 @@ function IndexPage() {
           <form encType="multipart/form-data" action="/convert" method="POST">
             Choose a file to upload: <input name="uploadedfile" type="file" />
             <br />
+            <div>
+              <label>Quality</label>
+              <Slider
+                allowedValues={Object.keys(quality)}
+                value={dpi}
+                labels={Object.values(quality)}
+                onChange={setDpi}
+              />
+            </div>
+            <br />
             <input type="submit" value="Upload File" />
           </form>
 
@@ -43,7 +55,22 @@ function IndexPage() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default IndexPage
+function submitForm(e) {
+    e.target.files[0]
+}
+
+export type DPI = 75 | 100 | 125 | 150 | 200 | 250 | 300;
+
+const quality: { [x: number]: string } = {
+  75: "Low",
+  125: "Medium-Low",
+  150: "Medium",
+  200: "High",
+  250: "Very High",
+  300: "Extreme",
+};
+
+export default IndexPage;

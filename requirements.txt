@@ -1,5 +1,5 @@
 gunicorn==19.9.0
-jivago==0.5.5
+git+https://github.com/keotl/jivago@0.6.0rc
 prometheus_client==0.7.1
 
 
